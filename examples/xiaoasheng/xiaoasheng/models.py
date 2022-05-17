@@ -13,7 +13,7 @@ def db_connect():
     Performs database connection using database settings from settings.py.
     Returns sqlalchemy engine instance
     """
-    return create_engine(get_project_settings().get("CONNECTION_STRING"))
+    return create_engine(get_project_settings().get("CONNECTION_STRING"), future=True)
 
 
 def create_table(engine):
@@ -25,8 +25,8 @@ def create_table(engine):
 quote_tag = Table(
     'quote_tag',
     Base.metadata,
-    Column('quote_id', Integer, ForeignKey('quote.id')),
-    Column('tag_id', Integer, ForeignKey('tag.id'))
+    Column('quote_id', ForeignKey('quote.id'), primary_key=True),
+    Column('tag_id', ForeignKey('tag.id'), primary_key=True)
 )
 
 

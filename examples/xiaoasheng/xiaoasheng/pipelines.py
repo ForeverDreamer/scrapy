@@ -7,7 +7,7 @@
 # useful for handling different item types with a single interface
 import logging
 
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import Session
 
 from itemadapter import ItemAdapter
 from scrapy.exceptions import DropItem
@@ -44,7 +44,7 @@ class SaveQuotesPipeline:
         """
         engine = db_connect()
         create_table(engine)
-        self.session = sessionmaker(bind=engine)()
+        self.session = Session(engine)
 
     def process_item(self, item, spider):
         if isinstance(item, SynopsisItem):
