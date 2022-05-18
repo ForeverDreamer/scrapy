@@ -7,6 +7,8 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
+from shutil import which
+
 BOT_NAME = 'xiaoasheng'
 
 SPIDER_MODULES = ['xiaoasheng.spiders']
@@ -17,7 +19,7 @@ NEWSPIDER_MODULE = 'xiaoasheng.spiders'
 #USER_AGENT = 'xiaoasheng (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -50,9 +52,9 @@ ROBOTSTXT_OBEY = True
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    'xiaoasheng.middlewares.XiaoashengDownloaderMiddleware': 543,
-#}
+DOWNLOADER_MIDDLEWARES = {
+   'xiaoasheng.middlewares.SeleniumMiddleware': 543,
+}
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
@@ -87,6 +89,22 @@ ROBOTSTXT_OBEY = True
 #HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+
+DOWNLOAD_DELAY = 5
+
+DOWNLOAD_TIMEOUT = 10
+
+# Crawl responsibly by identifying yourself (and your website) on the user-agent
+USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.67 Safari/537.36'
+
+DEFAULT_REQUEST_HEADERS = {
+     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+     "Accept-Encoding": "ggzip, deflate, br",
+     "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8,la;q=0.7",
+     "cache-control": "max-age=0",
+     "x-requested-with": "XMLHttpRequest",
+}
+
 # MySQL
 CONNECTION_STRING = "{drivername}+{dbapi}://{user}:{passwd}@{host}:{port}/{db_name}?charset=utf8".format(
      drivername="mysql",
@@ -97,3 +115,10 @@ CONNECTION_STRING = "{drivername}+{dbapi}://{user}:{passwd}@{host}:{port}/{db_na
      port="3306",
      db_name="examples",
 )
+
+# selenium+chromedriver
+SELENIUM_DRIVER_NAME = 'chrome'
+SELENIUM_DRIVER_EXECUTABLE_PATH = which('chromedriver')
+# SELENIUM_DRIVER_ARGUMENTS = ['--headless']
+SELENIUM_DRIVER_ARGUMENTS = ['--start-maximized']  # 浏览器窗口最大化
+# SELENIUM_DRIVER_PROXY = {'enable': False, 'password': False}
